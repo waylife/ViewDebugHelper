@@ -21,5 +21,4 @@ But using xpose may make you android device unstable, USE AT YOUR OWN RISK.
 Feel free to talk about your advice and  using experience.
 
 # Download link
-[Download demo](/outputs/apks)
-or go to release
+[Download APK](https://github.com/waylife/ViewDebugHelper/releases)
