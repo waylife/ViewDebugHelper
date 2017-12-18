@@ -52,9 +52,12 @@ android {
             String time = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
             outputFileName = "VDH-${defaultConfig.versionName}-" + time + ".apk"
             println("generate file name = " + outputFileName)
-            File stringsFile = new File("build/ReleaseApkName.txt")
+            File file = new File("build/ReleaseApkName.txt")
 
-            stringsFile.delete()
+            if (file.exists()) {
+                stringsFile.delete()
+            }
+            file.getParentFile().mkdirs()
             stringsFile.createNewFile()
             stringsFile.write(outputFileName)
         }
