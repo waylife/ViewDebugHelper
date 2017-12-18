@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/home_bottom_action_layout">
+        <ImageView
+            android:id="@+id/home_center_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/home_center_logo"
+            tools:text="V 1.0.2"
+            android:id="@+id/home_version"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/home_bottom_action_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/home_action_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:text="启动服务" />
+
+        <Button
+            android:id="@+id/home_activte_service_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:text="设置ViewDebugHelper服务" />
+    </LinearLayout>
+</RelativeLayout>

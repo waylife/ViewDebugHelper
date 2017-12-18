@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+
+ext {
+    gitHeadSuffix = getGitHeadRefsSuffix()
+    _versionName = getAutoVersionName() + gitHeadSuffix
+    travisBuild = System.getenv("TRAVIS") == "true"
+    // allows for -Dpre-dex=false to be set
+    preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+    _compileSdkVersion = (project.hasProperty("ANDROID_API") ? ANDROID_API : System.getenv("ANDROID_API")) as Integer
+    _buildToolsVersion = project.hasProperty("ANDROID_BUILD_TOOLS") ? ANDROID_BUILD_TOOLS : System.getenv("ANDROID_BUILD_TOOLS")
+}
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+    lintOptions {
+        abortOnError false
+    }
+
+//    dexOptions {
+//        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+//        preDexLibraries = preDexEnabled && !travisBuild
+//    }
+
+    defaultConfig {
+        applicationId "com.zanlabs.viewdebughelper"
+        minSdkVersion 8
+        targetSdkVersion 22
+        versionCode getAutoVersionCode()
+        versionName travisBuild ? _versionName + "_ci" : _versionName
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../docs/keystore/keystore.jks")
+            storePassword project.hasProperty("KEYSTORE_PASS") ? KEYSTORE_PASS : System.getenv("KEYSTORE_PASS")
+            keyAlias project.hasProperty("ALIAS_NAME") ? ALIAS_NAME : System.getenv("ALIAS_NAME")
+            keyPassword project.hasProperty("ALIAS_PASS") ? ALIAS_PASS : System.getenv("ALIAS_PASS")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            String time = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+            outputFileName = "VDH-${defaultConfig.versionName}-" + time + ".apk"
+            println("generate file name = " + outputFileName)
+            File stringsFile = new File("build/ReleaseApkName.txt")
+
+            stringsFile.delete()
+            stringsFile.createNewFile()
+            stringsFile.write(outputFileName)
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':zanlabscommon')
+    compile "com.android.support:support-v4:24.1.1"
+    compile "com.android.support:support-annotations:24.1.1"
+}
+
+
+def String getGitHeadRefsSuffix() {
+    try {
+        // .git/HEAD描述当前目录所指向的分支信息，内容示例："ref: refs/heads/master\n"
+        def headFile = new File('.git/HEAD')
+        if (headFile.exists()) {
+            String[] strings = headFile.getText('UTF-8').split(" ");
+            if (strings.size() > 1) {
+                String refFilePath = '.git/' + strings[1];
+
+                // 根据HEAD读取当前指向的hash值，路径示例为：".git/refs/heads/master"
+                def refFile = new File(refFilePath.replace("\n", ""));
+
+                // 索引文件内容为hash值+"\n"，
+                // 示例："90312cd9157587d11779ed7be776e3220050b308\n"
+                return "_" + refFile.getText('UTF-8').substring(0, 7)
+            }
+
+        }
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+    return ""
+}
+
+def int getAutoVersionCode() {
+    def cmd = "git rev-list HEAD --count"
+    return cmd.execute().text.trim().toInteger()
+}
+
+def String getAutoVersionName() {
+    def cmd = "git describe --tags"
+    def tagDesc = cmd.execute().text.trim()
+
+    def pattern = "-(\\d+)-g"
+    def matcher = tagDesc =~ pattern
+
+    def tagName
+    def commitCount
+
+    if (matcher) {
+        tagName = tagDesc.substring(0, matcher.start())
+        commitCount = matcher[0][1]
+    } else {
+        tagName = tagDesc;
+        commitCount = "0";
+    }
+
+    if (tagName == null || tagName.length() == 0) {
+        tagName = "N"
+    }
+    return tagName + "_" + commitCount
+}

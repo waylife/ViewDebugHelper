@@ -1,0 +1,4 @@
+UPDATE LOG
+#2016.12.16
+    1.add check update support
+    2.add ci support

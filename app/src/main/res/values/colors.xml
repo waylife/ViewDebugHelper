@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/text_green</color>
+    <color name="colorPrimaryDark">@color/text_green</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 标准色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="common_dialog_message">#424242</color>
+    <color name="text_deep_grey">#676767</color>
+
+    <color name="black_text_270_style">#222222</color>
+    <color name="base_head_bg">#0E9BDE</color>
+
+    <color name="bg_main">#FFFFFF</color>
+    <color name="text_green">#17AE5D</color>
+    <color name="text_red">#ff0000</color>
+    <color name="text_white">#FFFFFF</color>
+
+    <color name="divider_line">#b2b2b2</color>
+</resources>

@@ -1,0 +1,60 @@
+# reference
+# https://medium.com/@harmittaa/travis-ci-android-example-357f6e632fc4
+# http://avnpc.com/pages/android-auto-deploy-workflow-on-travis-ci
+language: android
+sudo: required
+jdk: oraclejdk8
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+
+env:
+  global:
+  - ANDROID_API=26
+  - ANDROID_BUILD_TOOLS=26.0.2
+  - ADB_INSTALL_TIMEOUT=5 # minutes
+  - secure: "YbmAAgSfKkfxYIz1uGFK5e5sLDEzpZ5YEz2vP1F/1TvKZaX86N8x0IzIVLVWxB0/Mr3VKWchJtcrW9oooCGeIKopMqQni5Gdc0ZBrZWcKl7dG3a8w3lDORnMgWtF/gBeRVnzmdAuHkZi/UptyXcdzl1aFU6oqPwbZfYp9HJnu6d57j3o9POXjiW+F129YYiY1MBFpAlf11y2mDr4vbejxWH0JJ/gN+8i3fCIgBf0PomcPQ2CiruPVkM2q1Vb3P/DSKH4VYZpHGkPKg3Pv1jmpR4RspIA/tKidVh1kCasXlEkSCF8zG5g/ELA/4dTYeLRlw93jRFJ9ckz10R5CIf9bivX74YoZtvDW8Up2QOfsY98TNRvy6Lk18iyrhWaycX3AaYrDKQ68pfbzM/Admz5vvuhhGCcw0/WRn4tn9j1wNWO17OgB9ujsjJfvWAIXIrzVDtdzsCUMcFgghvUDM6Ee5pBS6AJldreux/F0TClG2UO3pWLj2mDPRLjkUA1vCe5ztldnT5EWa8pk8Q/A2Bq+dXaTfZgOW2ojRYL6wCUELEN0BDmRDDYV8vGkXsG1X1BaL3oF3LLIJ0TeHjT7tYL6Kt6A78isWLO0zaR+jjewAkP1vj9Wfzne4cqODA5VSklkaO+kBTnoFpNekWVzgt0qmW5I4qsPkcVBK3vn7bEvP0="
+  - secure: "rQUJG23OzJRWE1wcSNwmiAMbbZ/44wNzyfXzMVDM5bM4112kIE0iu9Pa03ZFJd8dU+ijg0lF8q3Rn4D6Hl/DBm20hptI4sT1W2Dy5Mj3ktK5lpWpqhgQ/6FUbg1ABTYpy6SYJT4TS0/3YP26iTcBjOIqwoYyU5qehP38f4YdwZTcL+qakQFGBl77+27YIQHIYlDE91+glLy5eJTTbwenrv/+Iwlotjr8TrI/AYpsPzSj3bB2tmgi6OB7xmsWEvOOzFjcDhWDBPJQuScOXP8RMeanDOrCwR/6Kl7+w5q/2sGaAo3d/qCyA9ar0N7sna7B24B+s5Vtbn3zaZTRQnWyCd72q4gqajOEMKltbFyjtZibazgkY6UcBkQ6yxEohckgHcfyGuxt2mgJdFSM8d2+LtF85mWYqQ3d0OcRBEHm1mJKGr4iOYxUAY0rI0XeZq2pCp6sHoNxLmQ3pD8i5B9kCk0SJtb5MIwmXh1engszXdz5KcY1slhESkl01ytvhwG8kDE4babWDRPeKLuowqtUAEYcEiKBR00Ylcpg5jfO+IXn6fQqICEL8dt8JfaV1KBNQz/OFiXiny8Wja3Ybx6soXs+LRtTKu8QxlExcpZLxSkXVMqFzpcHTi8IIy8JFk6xN2e+1KwL3hW3bsa/UgETjr7PJMdNLu9CYnjtHlmShR0="
+  - secure: "YUzbESuf3kcbSVYN6BJOpdWs1qME+N3a20lNaMDpid8fHDgIAkuA71DngC43utTNIohb/RC4lbjg5DwtlmUG1xH+Kg0fhwcVA0yrGKjFTq3xR4EYw4NwZbpF+iPH06xlcw6B7CSX1MVgfHiskuGj5DU3NHEEtm7klVSHaUNzQkkWmq85xubKbLJzV5KxM6T11M/I0Q7F7lbzMhAk1SmeqtPopfhnv5Rb8CuX6mdGfUnqacTBooW1+OmDOHevBRqDS7pRJWe9l5VOo9iiVCbTa4+GZkGL8QWjZlGKC4gecy9VTjoO1beVLc8BjHS80REXY7qClnOvqkFYZrMTkHEp59eiS11zWWadEahCryTVP6LzkIkkTKe1Zviw3aYFAQywkzCb4Sg0CDSfOrn20HAsRMwhGNn5cpw9SNI3tT1rcJQaHp2x3zE4OjOzMDg259R3KvRKtFHUR3xe97Vd3P9fCzIHQ6Lvfu2T5By3UUm7inYZjDbXmAHOakTHZYwiKWjEeUr2+z7Rwv+3SUkXaxoH+p0AD2PbdRHQ3DW4TIjSJ+pdiwFE34P5IyhvgBkpqc7qN/C1UGyNFzhxGzs8me3JU7Y+Z2wBKJkZtIJcCcXIi8d5piD+9bNkhOhT2R63rHpYbOEvnfDmXOafG7V/BynQ/WRB0KsqyH6quV2P9xmigDo="
+
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-$ANDROID_BUILD_TOOLS
+  - android-$ANDROID_API
+  - extra-android-m2repository # for design library
+  - extra-android-support
+
+  licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_64e456aa4d64_key -iv $encrypted_64e456aa4d64_iv -in ./docs/keystore/keystore.jks.enc -out ./docs/keystore/keystore.jks -d
+  - chmod +x gradlew
+
+
+script:
+  - "./gradlew clean assembleRelease --info"
+
+before_deploy:
+  - echo -e "before deploy"
+
+deploy:
+  provider: releases
+  file: "build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
+  skip_cleanup: true
+  on:
+    repo: waylife/ViewDebugHelper
+    tags: true
+    jdk: oraclejdk8
+  api_key:
+    secure: "lFEJv823hJOaqV5E3P3Gu6v5pzqGCmt/HFgL6nOp0NJFTI4n30AkoM2tV1/wtqPUQuNsWqKJ9Ri4ZLrt3TX8cBfa9K+km1aFfDgZJwMzAij5Ro906daBPm3SdGBu4UIDa1/cbR9pSbyeHir9fYUsCxkXdACJbFaPV+BpBOoz4HYHjP9JfjD+AWWJ5Gq8szXhjQQvvyQLqQiaSSWFm4tT/DG5NKMG34CJmhVYwJDbyC2u1Kd3OvrpFiK+NsvuqyrvZ80l/FAVDPS0kuPFU4EzYJF8AGjRwl3Q/wIiWnwLj02aCES5fIRwAgxKDfreim53up+iinSfHDcZlwdvZ94uN6RTaQjlN+azJ3M3IIBTwiqQIjpdK83iDtVC1qnlsWKl5XPrLR//solSw3UuCPUqKc3PYWCnR6+rzCCwlqZ5jA+84bLstVw8eTuxL6g+uABf8CO+uEjGi5ZrcNdH5/BeeTVuo6TrwfPmrX9s/ZF3ft/v+rpMPvCC5Mm3HOg4vtg/KPr1JPtw9Nv1vL+IQg+9jql8U9K3rn7fGlEXlvDpFrvCKDtokAWT/oZZvg7e1zbp5KoEayJVhdTBfXih1CJTmfxuA2xCuiSaMNJn0TX1FRFfvOISlcftVAGCIQe37AKsxIPtyB/fixDDxiqHNXq4JdkUzNMld4LhOCirwvp+zo0="
