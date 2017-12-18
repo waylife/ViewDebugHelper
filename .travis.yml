@@ -47,7 +47,7 @@ script:
 
 before_deploy:
   - echo -e "before deploy"
-  ls -al "app/build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
+  - ls -al "app/build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
 
 deploy:
   provider: releases
