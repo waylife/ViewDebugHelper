@@ -112,12 +112,12 @@ def String getAutoVersionName() {
         tagName = tagDesc.substring(0, matcher.start())
         commitCount = matcher[0][1]
     } else {
-        tagName = tagDesc;
-        commitCount = "0";
+        tagName = tagDesc
+        commitCount = "0"
     }
 
     if (tagName == null || tagName.length() == 0) {
         tagName = "N"
     }
-    return tagName + "_" + commitCount
+    return tagName + "." + commitCount
 }
