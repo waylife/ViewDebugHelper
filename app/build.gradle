@@ -55,11 +55,11 @@ android {
             File file = new File("build/ReleaseApkName.txt")
 
             if (file.exists()) {
-                stringsFile.delete()
+                file.delete()
             }
             file.getParentFile().mkdirs()
-            stringsFile.createNewFile()
-            stringsFile.write(outputFileName)
+            file.createNewFile()
+            file.write(outputFileName)
         }
     }
 }
