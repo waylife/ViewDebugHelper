@@ -47,10 +47,11 @@ script:
 
 before_deploy:
   - echo -e "before deploy"
+  ls -al "app/build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
 
 deploy:
   provider: releases
-  file: "build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
+  file: "app/build/outputs/apk/release/$(cat build/ReleaseApkName.txt)"
   skip_cleanup: true
   on:
     repo: waylife/ViewDebugHelper
