@@ -2,14 +2,10 @@ hook add
 fragment, v4 fragment, host activity support
 activity path show
 data export
-automatically build
 page mark
-auto update
-
-
-TODO FIRST
-CI
-automatically copy file when release
-release signature
+✓ auto update
+✓ CI
+✓ automatically copy file when release
+✓ release signature
 test case
 develop on develop branch

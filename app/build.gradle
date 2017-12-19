@@ -50,7 +50,7 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             String time = new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
-            outputFileName = "VDH-${defaultConfig.versionName}-" + time + ".apk"
+            outputFileName = "VDH-${defaultConfig.versionName}-${defaultConfig.versionCode}-" + time + ".apk"
             println("generate file name = " + outputFileName)
             File file = new File("build/ReleaseApkName.txt")
 
