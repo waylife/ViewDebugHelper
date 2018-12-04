@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.zanlabs.viewdebughelper.core.ActivityStackManager;
 import com.zanlabs.viewdebughelper.util.ActivityHelper;
 import com.zanlabs.viewdebughelper.ViewDebugHelperApplication;
 
@@ -47,8 +48,10 @@ public class ViewDebugHelperService extends AccessibilityService {
             ActivityInfo activityInfo = ActivityHelper.tryGetActivity(this, componentName);
             boolean isActivity = activityInfo != null;
             if (isActivity) {
-                log("CurrentActivity" + componentName.flattenToString());
-                ViewDebugHelperApplication.getInstance().setLastTopActivityName(componentName.flattenToString());
+                String activityName = componentName.flattenToString();
+                log("CurrentActivity" + activityName);
+                ViewDebugHelperApplication.getInstance().setLastTopActivityName(activityName);
+                ActivityStackManager.getInstance().offer(activityName);
             }
         }
     }
